@@ -30,7 +30,7 @@ jobs:
           echo "hostprogs-y :=" > scripts/dtc/Makefile
           sed -i 's/(unsigned int)\*cmdq_handle/(unsigned long)*cmdq_handle/g' drivers/gpu/drm/mediatek/mtk_drm_crtc.c 2>/dev/null || true
           grep -q "stpcpy" lib/string.c || printf '\n#ifndef __HAVE_ARCH_STPCPY\nchar *stpcpy(char *dest, const char *src)\n{\n\twhile ((*dest = *src) != '"'\\0'"') {\n\t\tdest++;\n\t\tsrc++;\n\t}\n\treturn dest;\n}\nEXPORT_SYMBOL(stpcpy);\n#endif\n' >> lib/string.c
-          sed -i 's|VDSO_SYMBOL.*sigtramp|(void *)0x0|g' arch/arm64/kernel/signal.c
+          grep -n "sigtramp" arch/arm64/kernel/signal.c | head -5
 
       - name: 配置和编译
         run: |
@@ -55,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Image_IPC
-          path: out/arch/arm64/boot/Image.gz 
+          path: out/arch/arm64/boot/Image.gz
