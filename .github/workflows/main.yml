@@ -20,11 +20,11 @@ jobs:
 
       - name: 修复源码
         run: |
-          chmod +x scripts/config scripts/clang-android.sh scripts/dtc/dtc-lexer.l arch/arm64/kernel/vdso/gen_vdso_offsets.sh
+          chmod +x scripts/config scripts/clang-android.sh
           echo "" > scripts/drvgen/drvgen.mk 2>/dev/null
-          sed -i 's|DTC = scripts/dtc/dtc|DTC = /usr/bin/dtc|' scripts/Makefile.lib
-          sed -i 's|scripts/dtc/dtc|/usr/bin/dtc|g' scripts/Makefile.lib
-          sed -i 's|scripts/dtc/dtc|/usr/bin/dtc|' scripts/Makefile
+          sed -i 's|YYLTYPE yylloc|extern YYLTYPE yylloc|' scripts/dtc/dtc-lexer.l
+          sed -i 's|scripts/dtc/dtc|/bin/true|g' scripts/Makefile.lib
+          sed -i 's|scripts/dtc/dtc|/bin/true|g' scripts/Makefile
           export PATH="/opt/clang12/bin:/opt/gcc-arm64/bin:/opt/gcc-arm32/bin:$PATH"
           export CROSS_COMPILE=aarch64-linux-androidkernel-
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
