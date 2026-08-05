@@ -23,13 +23,21 @@ jobs:
           chmod +x scripts/config scripts/clang-android.sh
           echo "" > scripts/drvgen/drvgen.mk 2>/dev/null
           sed -i 's|YYLTYPE yylloc|extern YYLTYPE yylloc|' scripts/dtc/dtc-lexer.l
-          sed -i 's|scripts/dtc/dtc|/bin/true|g' scripts/Makefile.lib
-          sed -i 's|scripts/dtc/dtc|/bin/true|g' scripts/Makefile
+          sed -i 's|YYLTYPE yylloc|extern YYLTYPE yylloc|' scripts/dtc/dtc-lexer.lex.c 2>/dev/null || true
+          sed -i 's|$(objtree)/scripts/dtc/dtc|/usr/bin/dtc|g' scripts/Makefile.lib
+          sed -i 's|scripts/dtc/dtc|/usr/bin/dtc|g' scripts/Makefile
+          sed -i '/^hostprogs-y.*dtc/d' scripts/dtc/Makefile
+          sed -i 's|hostprogs-y += dtc|#hostprogs-y += dtc|' scripts/dtc/Makefile
+          echo "hostprogs-y :=" > scripts/dtc/Makefile
+          sed -i 's/(unsigned int)\*cmdq_handle/(unsigned long)*cmdq_handle/g' drivers/gpu/drm/mediatek/mtk_drm_crtc.c 2>/dev/null || true
+          grep -q "stpcpy" lib/string.c || printf '\n#ifndef __HAVE_ARCH_STPCPY\nchar *stpcpy(char *dest, const char *src)\n{\n\twhile ((*dest = *src) != '"'\\0'"') {\n\t\tdest++;\n\t\tsrc++;\n\t}\n\treturn dest;\n}\nEXPORT_SYMBOL(stpcpy);\n#endif\n' >> lib/string.c
+
+      - name: 配置和编译
+        run: |
           export PATH="/opt/clang12/bin:/opt/gcc-arm64/bin:/opt/gcc-arm32/bin:$PATH"
           export CROSS_COMPILE=aarch64-linux-androidkernel-
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
           export CLANG_TRIPLE=aarch64-linux-gnu-
-          chmod +x scripts/config scripts/clang-android.sh
           make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld atom_user_defconfig
           cd out
           ../scripts/config -e CONFIG_IPC
@@ -40,7 +48,7 @@ jobs:
           ../scripts/config -d LTO_CLANG
           cd ..
           yes "" | make O=out ARCH=arm64 olddefconfig
-          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld Image.gz
+          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" Image.gz
 
       - name: 上传 Image.gz
         uses: actions/upload-artifact@v4
