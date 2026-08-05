@@ -24,6 +24,7 @@ jobs:
           export CROSS_COMPILE=aarch64-linux-androidkernel-
           export CROSS_COMPILE_ARM32=arm-linux-androideabi-
           export CLANG_TRIPLE=aarch64-linux-gnu-
+          chmod +x scripts/config scripts/clang-android.sh
           make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld atom_user_defconfig
           cd out
           ../scripts/config -e CONFIG_IPC
