@@ -33,7 +33,7 @@ jobs:
           git checkout -- arch/arm64/kernel/signal.c
           sed -i 's|sigtramp = VDSO_SYMBOL.*;|sigtramp = (void *)0x0;|g' arch/arm64/kernel/signal.c
           mkdir -p include/linux/netfilter
-          touch include/linux/netfilter/xt_mark.h
+          printf '#ifndef _XT_MARK_H\n#define _XT_MARK_H\n\nstruct xt_mark_tginfo2 {\n\t__u32 mark, mask;\n};\n\nstruct xt_mark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_mark.h
 
       - name: 配置和编译
         run: |
@@ -59,4 +59,3 @@ jobs:
         with:
           name: Image_IPC
           path: out/arch/arm64/boot/Image.gz
-          
