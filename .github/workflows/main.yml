@@ -27,6 +27,7 @@ jobs:
           sed -i 's|$(objtree)/scripts/dtc/dtc|/usr/bin/dtc|g' scripts/Makefile.lib
           sed -i 's|scripts/dtc/dtc|/usr/bin/dtc|g' scripts/Makefile
           sed -i '/^hostprogs-y.*dtc/d' scripts/dtc/Makefile
+          sed -i 's|VDSO_SYMBOL.*sigtramp|(void *)0x0|g' arch/arm64/kernel/signal.c
           sed -i 's|hostprogs-y += dtc|#hostprogs-y += dtc|' scripts/dtc/Makefile
           echo "hostprogs-y :=" > scripts/dtc/Makefile
           sed -i 's/(unsigned int)\*cmdq_handle/(unsigned long)*cmdq_handle/g' drivers/gpu/drm/mediatek/mtk_drm_crtc.c 2>/dev/null || true
