@@ -35,7 +35,15 @@ jobs:
           mkdir -p include/linux/netfilter
           printf '#ifndef _XT_MARK_H\n#define _XT_MARK_H\n\nstruct xt_mark_tginfo2 {\n\t__u32 mark, mask;\n};\n\nstruct xt_mark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_mark.h
           printf '#ifndef _XT_CONNMARK_H\n#define _XT_CONNMARK_H\n\nenum {\n\tXT_CONNMARK_SET = 0,\n\tXT_CONNMARK_SAVE,\n\tXT_CONNMARK_RESTORE\n};\n\nstruct xt_connmark_tginfo1 {\n\t__u32 ctmark, ctmask, nfmask;\n\t__u8 mode;\n};\n\nstruct xt_connmark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_connmark.h
-          cat include/linux/netfilter/xt_connmark.h
+          printf '#ifndef _XT_TCPMSS_H\n#define _XT_TCPMSS_H\n\nstruct xt_tcpmss_info {\n\t__u16 mss;\n};\n\n#endif\n' > include/linux/netfilter/xt_tcpmss.h
+          touch include/linux/netfilter/xt_ecn.h
+          touch include/linux/netfilter/xt_hashlimit.h
+          touch include/linux/netfilter/xt_iprange.h
+          touch include/linux/netfilter/xt_owner.h
+          touch include/linux/netfilter/xt_pkttype.h
+          touch include/linux/netfilter/xt_policy.h
+          touch include/linux/netfilter/xt_realm.h
+          touch include/linux/netfilter/xt_statistic.h
 
       - name: 配置和编译
         run: |
