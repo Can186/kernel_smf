@@ -33,6 +33,9 @@ jobs:
           git checkout -- arch/arm64/kernel/signal.c
           sed -i 's|sigtramp = VDSO_SYMBOL.*;|sigtramp = (void *)0x0;|g' arch/arm64/kernel/signal.c
           mkdir -p include/linux/netfilter
+          printf '#ifndef _XT_MARK_H\n#define _XT_MARK_H\n\nstruct xt_mark_tginfo2 {\n\t__u32 mark, mask;\n};\n\nstruct xt_mark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_mark.h
+          printf '#ifndef _XT_CONNMARK_H\n#define _XT_CONNMARK_H\n\nenum {\n\tXT_CONNMARK_SET = 0,\n\tXT_CONNMARK_SAVE,\n\tXT_CONNMARK_RESTORE\n};\n\nstruct xt_connmark_tginfo1 {\n\t__u32 ctmark, ctmask, nfmask;\n\t__u8 mode;\n};\n\nstruct xt_connmark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_connmark.h
+          printf '#ifndef _XT_TCPMSS_H\n#define _XT_TCPMSS_H\n\nstruct xt_tcpmss_info {\n\t__u16 mss;\n};\n\nstruct xt_tcpmss_match_info {\n\t__u16 mss_min, mss_max;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_tcpmss.h
           rm -f net/netfilter/xt_ecn.c
           sed -i '/xt_ecn/d' net/netfilter/Makefile
           touch include/linux/netfilter/xt_hashlimit.h
