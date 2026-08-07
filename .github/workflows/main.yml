@@ -36,7 +36,7 @@ jobs:
           printf '#ifndef _XT_MARK_H\n#define _XT_MARK_H\n\nstruct xt_mark_tginfo2 {\n\t__u32 mark, mask;\n};\n\nstruct xt_mark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_mark.h
           printf '#ifndef _XT_CONNMARK_H\n#define _XT_CONNMARK_H\n\nenum {\n\tXT_CONNMARK_SET = 0,\n\tXT_CONNMARK_SAVE,\n\tXT_CONNMARK_RESTORE\n};\n\nstruct xt_connmark_tginfo1 {\n\t__u32 ctmark, ctmask, nfmask;\n\t__u8 mode;\n};\n\nstruct xt_connmark_mtinfo1 {\n\t__u32 mark, mask;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_connmark.h
           printf '#ifndef _XT_TCPMSS_H\n#define _XT_TCPMSS_H\n\nstruct xt_tcpmss_info {\n\t__u16 mss;\n};\n\nstruct xt_tcpmss_match_info {\n\t__u16 mss_min, mss_max;\n\t__u8 invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_tcpmss.h
-          printf '#ifndef _XT_ECN_H\n#define _XT_ECN_H\n\nenum {\n\tXT_ECN_OP_MATCH_ECE = 0x01,\n\tXT_ECN_OP_MATCH_CWR = 0x02,\n\tXT_ECN_OP_MATCH_IP  = 0x04,\n\tXT_ECN_OP_MATCH_MASK = 0x07,\n};\n\n#define XT_ECN_IP_MASK 0x03\n\nstruct xt_ecn_info {\n\t__u8 operation;\n\t__u8 invert;\n\t__u8 ip_ect;\n};\n\n#endif\n' > include/linux/netfilter/xt_ecn.h
+          touch include/linux/netfilter/xt_ecn.h
           touch include/linux/netfilter/xt_hashlimit.h
           touch include/linux/netfilter/xt_iprange.h
           touch include/linux/netfilter/xt_owner.h
