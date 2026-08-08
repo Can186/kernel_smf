@@ -62,7 +62,8 @@ jobs:
           ../scripts/config -d LTO_CLANG
           cd ..
           yes "" | make O=out ARCH=arm64 olddefconfig
-          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" Image dtbs=
+          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" vmlinux
+          /opt/gcc-arm64/bin/aarch64-linux-androidkernel-objcopy -O binary out/vmlinux out/arch/arm64/boot/Image
 
       - name: 上传 Image
         uses: actions/upload-artifact@v4
