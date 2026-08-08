@@ -43,6 +43,8 @@ jobs:
           sed -i '/xt_ecn\|xt_hl\|xt_policy\|xt_statistic/d' net/netfilter/Makefile
           touch include/linux/netfilter/xt_hashlimit.h
           touch include/linux/netfilter/xt_realm.h
+          mkdir -p include/dt-bindings/interrupt-controller
+          printf '#ifndef _DT_BINDINGS_ARM_GIC_H\n#define _DT_BINDINGS_ARM_GIC_H\n\n#define GIC_SPI 0\n#define GIC_PPI 1\n\n#endif\n' > include/dt-bindings/interrupt-controller/arm-gic.h
       - name: 配置和编译
         run: |
           export PATH="/opt/clang12/bin:/opt/gcc-arm64/bin:/opt/gcc-arm32/bin:$PATH"
