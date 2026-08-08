@@ -63,6 +63,7 @@ jobs:
           cd ..
           yes "" | make O=out ARCH=arm64 olddefconfig
           make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" vmlinux
+          mkdir -p out/arch/arm64/boot
           /opt/gcc-arm64/bin/aarch64-linux-androidkernel-objcopy -O binary out/vmlinux out/arch/arm64/boot/Image
 
       - name: 上传 Image
