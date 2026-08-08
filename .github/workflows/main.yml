@@ -39,10 +39,10 @@ jobs:
           printf '#ifndef _XT_IPRANGE_H\n#define _XT_IPRANGE_H\n\nenum {\n\tIPRANGE_SRC = 1 << 0,\n\tIPRANGE_DST = 1 << 1,\n\tIPRANGE_SRC_INV = 1 << 4,\n\tIPRANGE_DST_INV = 1 << 5,\n};\n\nstruct xt_iprange_mtinfo {\n\tunion nf_inet_addr src_min, src_max, dst_min, dst_max;\n\t__u8 flags;\n};\n\n#endif\n' > include/linux/netfilter/xt_iprange.h
           printf '#ifndef _XT_OWNER_H\n#define _XT_OWNER_H\n\nenum {\n\tXT_OWNER_UID = 1 << 0,\n\tXT_OWNER_GID = 1 << 1,\n\tXT_OWNER_SOCKET = 1 << 2,\n};\n\nstruct xt_owner_match_info {\n\tuid_t uid_min, uid_max;\n\tgid_t gid_min, gid_max;\n\t__u8 match, invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_owner.h
           printf '#ifndef _XT_PKTTYPE_H\n#define _XT_PKTTYPE_H\n\nstruct xt_pkttype_info {\n\t__u8 pkttype, invert;\n};\n\n#endif\n' > include/linux/netfilter/xt_pkttype.h
+          printf '#ifndef _XT_POLICY_H\n#define _XT_POLICY_H\n\n#include <net/xfrm.h>\n\nstruct xt_policy_elem {\n\tunion {\n\t\tstruct {\n\t\t\tunion nf_inet_addr saddr;\n\t\t\tunion nf_inet_addr smask;\n\t\t\tunion nf_inet_addr daddr;\n\t\t\tunion nf_inet_addr dmask;\n\t\t};\n\t};\n\t__u8 invert;\n};\n\nstruct xt_policy_info {\n\tstruct xt_policy_elem pol[2];\n\t__u16 flags;\n\t__u16 len;\n};\n\n#endif\n' > include/linux/netfilter/xt_policy.h
           rm -f net/netfilter/xt_ecn.c net/netfilter/xt_hl.c
           sed -i '/xt_ecn\|xt_hl/d' net/netfilter/Makefile
           touch include/linux/netfilter/xt_hashlimit.h
-          touch include/linux/netfilter/xt_policy.h
           touch include/linux/netfilter/xt_realm.h
           touch include/linux/netfilter/xt_statistic.h
       - name: 配置和编译
