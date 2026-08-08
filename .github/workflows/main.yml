@@ -62,10 +62,10 @@ jobs:
           ../scripts/config -d LTO_CLANG
           cd ..
           yes "" | make O=out ARCH=arm64 olddefconfig
-          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" Image.gz
+          make -j$(nproc) O=out ARCH=arm64 SUBARCH=arm64 CC=clang LD=ld.lld KCFLAGS="-Wno-error=pointer-to-int-cast" Image
 
-      - name: 上传 Image.gz
+      - name: 上传 Image
         uses: actions/upload-artifact@v4
         with:
           name: Image_IPC
-          path: out/arch/arm64/boot/Image.gz
+          path: out/arch/arm64/boot/Image
